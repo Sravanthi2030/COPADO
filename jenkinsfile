@@ -29,6 +29,20 @@ pipeline{
                 }
             }
         }
+        stage('Package'){
+            input{
+                message "Select the Version to package"
+                ok "Verion Selected"
+                parameters{
+                    choice(name:'NEWAPP',choices:['2.1','2.2','2.3'])
+                }
+            }
+            steps{
+                script{
+                    echo "Packaging the code"
+                }
+            }
+        }
         stage('Deploy'){
             steps{
                 script{
