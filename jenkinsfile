@@ -1,6 +1,3 @@
-This is second file
-this is demo
-this is new line
 
 pipeline{
     agent any
