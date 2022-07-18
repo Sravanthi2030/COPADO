@@ -28,8 +28,8 @@ ipeline{
                 script{
                     sshagent(['Test-server-key']) {
                     echo "Packaging the code"
-                    sh "scp -o StricktHostKeyChecking=no server-script.sh ec2-user@172.31.39.138:/home/ec2-user"
-                    sh "ssh -o StricttHostKeyChecking=no ec2-user@172.31.39.138 'bash ~/server-script.sh'"
+                    sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.39.138:/home/ec2-user"
+                    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.39.138 'bash ~/server-script.sh'"
                     }
                 }
             }
