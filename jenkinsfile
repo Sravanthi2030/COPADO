@@ -16,18 +16,28 @@ pipeline{
             }
         }
         stage('UNITTEST'){
+             agent {label linux_slave}
             steps{
                 script{
                     echo "Running The Test Cases"
                     sh 'mvn test'
                 }
             }
+            post{
+                always{
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
         }
         stage('PACKAGE'){
+            agent any
             steps{
                 script{
+                    sshagent(['Test-server-key']) {
                     echo "Packaging the code"
-                    sh 'mvn package'
+                    sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.39.138:/home/ec2-user"
+                    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.39.138 'bash ~/server-script.sh'"
+                    }
                 }
             }
         }
