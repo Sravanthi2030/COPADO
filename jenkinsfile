@@ -15,10 +15,16 @@ ipeline{
             }
         }
         stage('UNITTEST'){
+             agent {label linux_slave}
             steps{
                 script{
                     echo "Running The Test Cases"
                     sh 'mvn test'
+                }
+            }
+            post{
+                always{
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
