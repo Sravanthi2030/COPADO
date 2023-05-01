@@ -5,11 +5,15 @@ pipeline {
         booleanParam(name:'ExecuteTests',defaultValue:'true',description:'testdesc')
         choice(name:'APPVERSION',choices:['1.1','2.2','3.3'])
     }
+    environment{
+        NEW_VERSION = '2.1'
+    }
     stages {
         stage('Build') {
             steps {
                 script{
                     echo "Building the code"
+                    echo "Building version ${NEW_VERSION}"
                 }
             }
 
