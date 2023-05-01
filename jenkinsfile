@@ -41,7 +41,8 @@ pipeline {
             }
             steps {
                 script{
-                    echo "Packaging the code2"
+                    echo "Packaging the code"
+                    echo "packaging the version: ${NEWAPP}"
                 }
             }
 
