@@ -1,58 +1,34 @@
 pipeline {
     agent any
-    parameters{
-        string(name:'ENV',defaultValue:'Test',description:'version to deploy')
-        booleanParam(name:'ExecuteTests',defaultValue:'true',description:'testdesc')
-        choice(name:'APPVERSION',choices:['1.1','2.2','3.3'])
-    }
-    environment{
-        NEW_VERSION = '2.1'
+    tools{
+        jdk 'JAVA_HOME'
+        maven 'MAVEN'
     }
     stages {
-        stage('Build') {
+        stage('Compile') {
             steps {
                 script{
-                    echo "Building the code"
-                    echo "Building version ${NEW_VERSION}"
+                    echo "Compiling the code"
+                    git 'https://github.com/Sravanthi2030/COPADO.git'
+                    sh 'mvn compile'
                 }
             }
 
         }
-        stage('Testing') {
-            when{
-                expression{
-                    params.ExecuteTests == true
-                }
-            }
+        stage('UnitTest') {
             steps {
                 script{
                     echo "Testing the code2"
+                    sh 'mvn test'
                 }
             }
 
         }
          stage('Package') {
-            input {
-                message "Select the version to package"
-                ok "version selected"
-                parameters {
-                    choice(name:'NEWAPP',choices:['2.1','2.2','2.3'])
-                }
-            }
             steps {
                 script{
                     echo "Packaging the code"
-                    echo "packaging the version: ${NEWAPP}"
-                }
-            }
-
-        }
-        stage('Deploy') {
-            steps {
-                script{
-                    echo "deploying the code"
-                    echo "deploying to env: ${params.ENV}"
-                    echo "deploying the version: ${params.APPVERSION}"
+                    sh 'mvn package'
                 }
             }
 
