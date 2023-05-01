@@ -32,7 +32,7 @@ pipeline {
 
         }
          stage('Package') {
-            input{
+            input {
                 message= "Select the version to package"
                 ok "version selected"
                 parameters {
