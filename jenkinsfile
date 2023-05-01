@@ -1,47 +1,24 @@
 
-pipeline{
+pipeline {
     agent any
-    tools{
-        jdk 'myJava'
-        maven 'mymaven'
-    }
-    stages{
-        stage('COMPILE'){
-            steps{
+    stages {
+        stage('Build') {
+            steps {
                 script{
-                    echo "compiling the code"
-                    git 'https://github.com/Sravanthi2030/COPADO.git'
-                    sh 'mvn compile'
+                    echo "Building the code"
                 }
             }
-        }
-        stage('UNITTEST'){
-             agent {label linux_slave}
-            steps{
-                script{
-                    echo "Running The Test Cases"
-                    sh 'mvn test'
-                }
-            }
-            post{
-                always{
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        stage('PACKAGE'){
-            agent any
-            steps{
-                script{
-                    sshagent(['Test-server-key']) {
-                    echo "Packaging the code"
-                    sh "scp -o StrictHostKeyChecking=no server-script.sh ec2-user@172.31.39.138:/home/ec2-user"
-                    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.39.138 'bash ~/server-script.sh'"
-                    }
-                }
-            }
-        }
-       
-    }
 
+        }
+        stage('Compile') {
+            steps {
+                script{
+                    echo "Compile the code2"
+                }
+            }
+
+        }
+    }
+    
 }
+
